@@ -21,3 +21,4 @@ class ModelTests(TestCase):
         self.assertTrue(user.check_password(password))
 
 
+
