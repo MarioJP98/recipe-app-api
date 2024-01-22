@@ -12,24 +12,24 @@ from rest_framework.test import APIClient
 
 from core.models import Recipe
 
-from recipe.serializers import (
-    RecipeSerializer,
-    RecipeDetailSerializer
-)
-RECIPES_URL = reverse('recipe:recipe-list')
+from recipe.serializers import RecipeSerializer, RecipeDetailSerializer
+
+RECIPES_URL = reverse("recipe:recipe-list")
+
 
 def detail_url(recipe_id):
     """Create and return a recipe detail URL."""
-    return reverse('recipe:recipe-detail', args=[recipe_id])
+    return reverse("recipe:recipe-detail", args=[recipe_id])
+
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
     defaults = {
-        'title': 'Sample Recipe title',
-        'time_minutes': 22,
-        'price': Decimal('5.25'),
-        'description': 'Sample Recipe description',
-        'link': 'https://example.com/recipe.pdf'
+        "title": "Sample Recipe title",
+        "time_minutes": 22,
+        "price": Decimal("5.25"),
+        "description": "Sample Recipe description",
+        "link": "https://example.com/recipe.pdf",
     }
     defaults.update(params)
 
@@ -56,8 +56,8 @@ class PrivateRecipeAPITests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
-            'user@example.com',
-            'testpass123',
+            "user@example.com",
+            "testpass123",
         )
         self.client.force_authenticate(self.user)
 
@@ -68,7 +68,7 @@ class PrivateRecipeAPITests(TestCase):
 
         res = self.client.get(RECIPES_URL)
 
-        recipes = Recipe.objects.all().order_by('-id')
+        recipes = Recipe.objects.all().order_by("-id")
         serializer = RecipeSerializer(recipes, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -78,8 +78,7 @@ class PrivateRecipeAPITests(TestCase):
         """Test list of recipes is limited to authenticated user."""
 
         other_user = get_user_model().objects.create_user(
-            'other@example.com',
-            'password123'
+            "other@example.com", "password123"
         )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
