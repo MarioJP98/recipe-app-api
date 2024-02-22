@@ -6,7 +6,7 @@ services:
     build:
       context: .
       args:
-      - DEV=true
+        - DEV=true
     ports:
       - "8000:8000"
     volumes:
@@ -21,6 +21,7 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
+      - DEBUG=1
     depends_on:
       - db
 
